@@ -2,12 +2,15 @@ package club.fiverr.auth.domain.repository;
 
 import club.fiverr.auth.domain.model.AuthAccount;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
 public interface AuthAccountRepository {
 
     AuthAccount save(AuthAccount account);
+
+    List<AuthAccount> findAll();
 
     Optional<AuthAccount> findById(UUID id);
 

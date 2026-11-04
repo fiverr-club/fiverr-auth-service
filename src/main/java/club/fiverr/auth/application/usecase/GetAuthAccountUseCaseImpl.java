@@ -9,6 +9,7 @@ import club.fiverr.auth.domain.repository.AuthAccountRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.util.List;
 import java.util.UUID;
 
 @Service
@@ -26,5 +27,13 @@ public class GetAuthAccountUseCaseImpl implements GetAuthAccountUseCase {
         AuthAccount account = authAccountRepository.findById(accountId)
                 .orElseThrow(() -> new AccountNotFoundException("Account not found: " + accountId));
         return AuthAccountResultMapper.toResult(account);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public List<AuthAccountResult> findAll() {
+        return authAccountRepository.findAll().stream()
+                .map(AuthAccountResultMapper::toResult)
+                .toList();
     }
 }

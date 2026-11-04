@@ -6,6 +6,7 @@ import club.fiverr.auth.infrastructure.persistence.entity.AuthAccountEntity;
 import club.fiverr.auth.infrastructure.persistence.mapper.AuthAccountPersistenceMapper;
 import org.springframework.stereotype.Repository;
 
+import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
 
@@ -27,6 +28,13 @@ public class JpaAuthAccountRepository implements AuthAccountRepository {
         AuthAccountEntity entity = mapper.toEntity(account);
         AuthAccountEntity saved = jpaRepository.save(entity);
         return mapper.toDomain(saved);
+    }
+
+    @Override
+    public List<AuthAccount> findAll() {
+        return jpaRepository.findAll().stream()
+                .map(mapper::toDomain)
+                .toList();
     }
 
     @Override

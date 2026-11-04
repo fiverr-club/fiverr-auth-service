@@ -26,6 +26,7 @@ import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
 import java.util.UUID;
 
 @RestController
@@ -49,6 +50,14 @@ public class AuthAccountController {
         this.refreshTokenUseCase = refreshTokenUseCase;
         this.changePasswordUseCase = changePasswordUseCase;
         this.getAuthAccountUseCase = getAuthAccountUseCase;
+    }
+
+    @GetMapping("/accounts")
+    public ResponseEntity<List<AuthAccountResponse>> listAccounts() {
+        List<AuthAccountResponse> accounts = getAuthAccountUseCase.findAll().stream()
+                .map(AuthAccountRestMapper::toResponse)
+                .toList();
+        return ResponseEntity.ok(accounts);
     }
 
     @PostMapping("/register")
